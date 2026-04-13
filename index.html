@@ -1,16 +1,554 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link href="./src/css/styles.css" type="text/css" rel="stylesheet" />
-    <title>Jayden Dickinson's Portfolio</title>
-  </head>
-  <body>
-    <div class="flex">
-      <div class="card">
-        <h1>Work in Progress</h1>
-        <p>Please check back later for updates 😏
-        </p>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jayden Dickinson — Web Developer & Designer</title>
+<meta name="description" content="Jayden Dickinson is a web developer and designer based on the Gold Coast, Australia. Building websites, apps, and self-hosted infrastructure.">
+<meta name="author" content="Jayden Dickinson">
+<meta property="og:title" content="Jayden Dickinson — Web Developer & Designer">
+<meta property="og:description" content="Web developer and designer based on the Gold Coast, Australia.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0b;
+    --surface: #151512;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ede6;
+    --muted: #7a7870;
+    --accent: #c8b99a;
+    --accent-warm: #e8d5b0;
+    --green: #5a7a5a;
+    --green-light: #8ab88a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  nav.scrolled {
+    background: rgba(13,13,11,0.92);
+    backdrop-filter: blur(12px);
+    border-color: var(--border);
+  }
+  .nav-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    color: var(--accent-warm);
+    letter-spacing: 0.01em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 2.5rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%);
+  }
+
+  .hero-tag {
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--green-light);
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.95;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    max-width: 900px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    margin-top: 2rem;
+    max-width: 440px;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .hero-cta {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    background: var(--accent);
+    color: var(--bg);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent-warm); transform: translateY(-1px); }
+
+  .btn-ghost {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* SECTION */
+  section {
+    padding: 6rem 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  h2 em { font-style: italic; color: var(--accent); }
+
+  /* ABOUT */
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    max-width: 1100px;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+
+  .about-text p strong { color: var(--text); font-weight: 400; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .skill-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .skill-item:nth-child(odd) { padding-right: 2rem; }
+
+  .skill-name { font-size: 0.9rem; color: var(--text); font-weight: 400; }
+  .skill-type { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; }
+
+  /* WORK */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    max-width: 1100px;
+  }
+
+  .work-card {
+    background: var(--bg);
+    padding: 2rem 2rem 2.5rem;
+    text-decoration: none;
+    display: block;
+    transition: background 0.2s;
+    position: relative;
+  }
+
+  .work-card:hover { background: var(--surface); }
+
+  .work-card-tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 1rem;
+  }
+
+  .work-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .work-card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .work-card-arrow {
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .work-card-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* CONTACT */
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    max-width: 1100px;
+  }
+
+  .contact-links { display: flex; flex-direction: column; gap: 0; }
+
+  .contact-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    transition: color 0.2s;
+  }
+
+  .contact-link:hover { color: var(--accent); }
+  .contact-link:hover .contact-link-arrow { transform: translate(3px, -3px); }
+
+  .contact-link-name { font-size: 1rem; font-weight: 400; }
+  .contact-link-arrow { transition: transform 0.2s; font-size: 1rem; color: var(--muted); }
+
+  .contact-intro {
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 2.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p { font-size: 0.8rem; color: var(--muted); }
+
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1.25rem 1.25rem; }
+    .nav-links { display: none; }
+    .hero { padding: 0 1.25rem 4rem; }
+    section { padding: 4rem 1.25rem; }
+    .about-layout, .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <span class="nav-name">Jayden Dickinson</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-tag">Gold Coast, Australia</div>
+  <h1>Jayden<br><em>Dickinson</em></h1>
+  <p class="hero-sub">Web developer and designer building websites, mobile apps, and self-hosted infrastructure on the Gold Coast.</p>
+  <div class="hero-cta">
+    <a href="#work" class="btn-primary">View my work</a>
+    <a href="#contact" class="btn-ghost">Get in touch</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">About</p>
+  <div class="about-layout">
+    <div class="about-text fade-up">
+      <h2>Developer &<br><em>designer</em></h2>
+      <p>I'm <strong>Jayden Dickinson</strong>, a web developer and designer based on the Gold Coast, Australia. I build websites and digital experiences for businesses — from small local studios to e-commerce stores.</p>
+      <p>Beyond client work, I run a homelab exploring self-hosted infrastructure, media servers, and automation. I'm also a landscape photographer with a passion for the natural beauty of South East Queensland.</p>
+      <p>Whether it's a <strong>polished marketing site</strong>, a <strong>WooCommerce store</strong>, or a full-stack web app — I care about the details that make something feel right.</p>
+    </div>
+    <div class="fade-up" style="transition-delay: 0.15s;">
+      <div class="skills-grid">
+        <div class="skill-item">
+          <span class="skill-name">WordPress</span>
+          <span class="skill-type">CMS</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">WooCommerce</span>
+          <span class="skill-type">E-commerce</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">HTML / CSS</span>
+          <span class="skill-type">Frontend</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">JavaScript</span>
+          <span class="skill-type">Frontend</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Python</span>
+          <span class="skill-type">Backend</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Flask</span>
+          <span class="skill-type">Backend</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Docker</span>
+          <span class="skill-type">Infrastructure</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Proxmox</span>
+          <span class="skill-type">Infrastructure</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Cloudflare</span>
+          <span class="skill-type">Networking</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Wix</span>
+          <span class="skill-type">CMS</span>
+        </div>
       </div>
     </div>
-  </body>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <p class="section-label">Selected work</p>
+  <h2 style="margin-bottom: 2.5rem;">Things I've <em>built</em></h2>
+  <div class="work-grid fade-up">
+
+    <a href="https://pushpilatesgc.com" target="_blank" rel="noopener" class="work-card">
+      <p class="work-card-tag">Website</p>
+      <h3>PUSH Pilates GC</h3>
+      <p>Marketing and booking website for a reformer Pilates studio on the Gold Coast. Built on Wix with custom branding integration.</p>
+      <div class="work-card-stack">
+        <span class="tag">Wix</span>
+        <span class="tag">Web design</span>
+        <span class="tag">Branding</span>
+      </div>
+    </a>
+
+    <a href="https://easysunday.com.au" target="_blank" rel="noopener" class="work-card">
+      <p class="work-card-tag">E-commerce</p>
+      <h3>Easy Sunday</h3>
+      <p>Self-hosted WooCommerce photography store selling landscape prints and digital downloads. Deployed via Docker on a homelab NUC.</p>
+      <div class="work-card-stack">
+        <span class="tag">WooCommerce</span>
+        <span class="tag">WordPress</span>
+        <span class="tag">Docker</span>
+        <span class="tag">Coolify</span>
+      </div>
+    </a>
+
+    <a href="https://mrjaydos.github.io/Portfolio/" target="_blank" rel="noopener" class="work-card">
+      <p class="work-card-tag">Portfolio</p>
+      <h3>Personal portfolio</h3>
+      <p>A clean portfolio site deployed via GitHub Pages, showcasing web development and design work.</p>
+      <div class="work-card-stack">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">GitHub Pages</span>
+      </div>
+    </a>
+
+    <div class="work-card" style="cursor: default;">
+      <p class="work-card-tag">Infrastructure</p>
+      <h3>Homelab — alfi3.com</h3>
+      <p>Self-hosted stack running on a MagicNUC AS1 — Plex, Jellyfin, Grafana, Coolify, Pi-hole, and more, all secured via Cloudflare Zero Trust.</p>
+      <div class="work-card-stack">
+        <span class="tag">Proxmox</span>
+        <span class="tag">Docker</span>
+        <span class="tag">Cloudflare</span>
+        <span class="tag">Tailscale</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Contact</p>
+  <div class="contact-layout fade-up">
+    <div>
+      <h2>Let's work<br><em>together</em></h2>
+      <p class="contact-intro" style="margin-top: 1.5rem;">Based on the Gold Coast and available for freelance website and app projects. I'm particularly interested in working with local businesses, studios, and small brands.</p>
+    </div>
+    <div class="contact-links">
+      <a href="https://github.com/MrJaydos" target="_blank" rel="noopener" class="contact-link">
+        <span class="contact-link-name">GitHub</span>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+      <a href="https://www.instagram.com/pushpilatesgc/" target="_blank" rel="noopener" class="contact-link">
+        <span class="contact-link-name">Instagram</span>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+      <a href="mailto:hello@alfi3.com" class="contact-link">
+        <span class="contact-link-name">hello@alfi3.com</span>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+      <a href="https://mrjaydos.github.io/Portfolio/" target="_blank" rel="noopener" class="contact-link">
+        <span class="contact-link-name">Full portfolio</span>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Jayden Dickinson. Gold Coast, Australia.</p>
+  <p>Built by Jayden Dickinson</p>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
 </html>
